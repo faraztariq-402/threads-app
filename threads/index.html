@@ -4,9 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Threads</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous">
+
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="./images/threads.webp" type="image/x-icon">
 </head>
 <body>
+    
+    <div class="threadsIcon"><img src="./images/threads_2-removebg-preview.png"></div>
+    <div id="createPost"></div>
+    <div id="postContainer"></div>
+<div id="userDiv" style="display: none;"></div>
+<div class="icons">
+    <div class="home"><i class="fas fa-home" style="color: black;"></i></div>
+    <div class="post"><i class="fas fa-pen-alt" style="color: black;" id="post"></i></div>
+    <div class="user"><p id="userPara" style="display: none;"></p><i class="fas fa-user" style="color: black;"></i></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script type="module" src="./threads.js"></script>
 </body>
 </html>

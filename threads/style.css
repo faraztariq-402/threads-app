@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+*{
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.icons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    box-shadow: 1rem black;
+    right: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    background-color: #fff; /* Optional background color */
+  }
+  .comment{
+    font-size: 1.1rem;
+    margin-top: 0.2rem;
+    margin-left: 0.2rem;
+  }
+  #postInput {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    color: black;
+    position: absolute;
+    transform: translate(0, 120%);
+    top: 0;
+    left: 1rem;
+    width: 100%;
+  }
+  .delete{
+    display: inline;
+    position: relative;
+    bottom: 0.4rem;
+    margin-left: 4rem;
+    cursor: pointer;
+  }
+  #postContainer{
+    margin-bottom: 0.7rem;
+    font-size: 2rem;
+  }
+  .underline{
+    position: absolute;
+    transform: translate(0, 90%);
+    top: 1rem;
+    right: 1rem;
+    height: 1px;
+    width: 100vw;
+    color: #000000;
+  }
+
+  .ownerLabel{
+    display: block;
+    font-size: 0.9rem;
+  }
+  .confirmDeleteButton{
+    border-radius: 0.4rem;
+    width: 6rem;
+    height: 2.5rem;
+    background-color: red;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+  
+  .swal2-confirm.swal2-styled {
+    
+    position: absolute;
+    transform: translate(0, 100%);
+    bottom: 7rem;
+    right: 1rem;
+  }
+.reply{
+  position: absolute;
+  transform: translate(0, 100%);
+  bottom: 4.9rem;
+  left: 1rem;
+  font-size: 1.5rem;
+}
+  .userName {
+    position: absolute;
+    transform: translate(0, 120%);
+    top: 3rem; /* Adjust the top value as needed */
+    left: 4.5rem; /* Adjust the left value as needed */
+    color: black;
+  }
+  
+  .userProfile {
+    position: absolute;
+    transform: translate(0, 115%);
+    top: 9px;
+    left: 0;
+    height: 3.5rem;
+    width: 4.3rem;
+  }
+  #postInput::placeholder{
+     color: #000000;
+  }
+  .icons .home,
+  .icons .post,
+  .icons .user {
+    margin: 0 10px; /* Adjust the margin as per your desired spacing */
+  }
+
+  .icons i {
+    font-size: 2rem;
+  }
+  .threadsIcon img{
+    height: 4.4rem;
+    width: 3.5rem;
+  }
+  .myPara{
+    display: inline;
+  }
+  .threadsIcon{
+    display: flex;
+    justify-content: center;
+  }
+  .commentInput{
+    display: block;
+    border: none;
+    outline: none;
+  }
+  .commentRow{
+    display: flex;
+    color: red;
+  }
+  .myDiv{
+    margin-top: 2rem;
+  }
+  #userDiv{
+    font-size: 2rem;
+    margin-top: 2rem;
+  }
+  .commentButton,.delete{
+    height: 1.8rem;
+    border-radius: 0.4rem;
+    width: 7.7rem;
+    background-color: black;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    margin: 0.5rem;
+   
+  }
+ 
+  .delete{
+    margin-left: 2.5rem;
+  }
+  button:hover{
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+  }
+  .swal2-popup-custom {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    position: fixed;
+    margin-top: 6rem;
+    /* top: 30;
+    left: 0; */
+    overflow-y: auto;
+  }
+  .swal2-cancel.swal2-styled {
+    position: absolute ;
+    top: 0;
+    transition: transform 1.7s;
+    left: 0;
+    transform: translate(0, 40%);
+  }
+  
+  #swal2-cancel.swal2-styled:hover {
+    transform: scale(1.15); 
+  }

@@ -4,22 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>threads</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
+    <link rel="shortcut icon" href="../threads/images/threads.webp" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="parent">
         <div class="loginCard" id="loginCard">
-            <span class="heading">User Login</span>
+            <h1 class="heading">User Login</h1>
             <div class="headerUnderline"></div>
-    <label>Email Address:</label><br>
-            <input type="text"  placeholder="Enter your email" id="loginEmail" class="loginClass" style="height: 2rem ;font-size: 1rem;"><br>
-            <!-- <span class="underline"></span> -->
-            <label>Password:</label><br> <input type="password"  placeholder="Enter your password" id="loginPassword" class="loginClass" style="height: 2rem; font-size: 1rem;"><br>
-            <!-- <span class="underline"></span> -->
-          <div class="passwordDiv">  <input type="checkbox" id="showPasswordCheckbox"> <label>Show Password</label></div>
-    <button id="login">Login</button><br>
-   <div class="mySpan"> <span class="para1">Not a member? &nbsp<a href="../index.html">Signup Now</a></span></div>
-        </div></div>
+            
+            <div class="input_group">
+                <i class="fa fa-user"></i>
+                <input type="text" placeholder="Email Address" class="input_text" id="loginEmail"/>
+            </div>
+            <div class="input_group">
+                <i class="fa fa-unlock-alt"></i>
+                <input type="password" placeholder="Password" class="input_text" id="loginPassword"/>
+            </div>
+            <div class="showPassword"><input type="checkbox" id="showLoginPasswordCheckbox"><label style="font-size: 1.3rem; margin-left: 0.8rem;">Show Password</label> </div>
+          
+               <div id="login"><button id="loginButton">Login</button></div> 
+          
+             <div class="mySpan"> <!--footer -->
+                <span>Not a member?</span>
+                <a href="../index.html">Signup</a>
+                
+            </div>
+        </div>
+    </div>
     <script type="module" src="./app.js"></script>
 </body>
 </html>

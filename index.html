@@ -1,27 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Threads</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
+    <link rel="shortcut icon" href="./threads/images/threads.webp" type="image/x-icon">
     <link rel="stylesheet" href="./signUp/style.css">
 </head>
+
 <body>
-    <div class="parent">
-        <div class="signUpCard" id="signUpCard">
-            <span class="heading">User SignUp</span>
-            <div class="headerUnderline"></div>
-    
-            <label>Email Address:</label><br> <input type="text"  placeholder="Enter your email" id="email" class="signUpClass" style="height: 2rem; font-size: 1rem;"><br>
-            <!-- <span class="underline"></span> -->
-            <label>Password:</label><br>   <input type="password"  placeholder="Enter your password" id="password" class="signUpClass" style="height: 2rem; font-size: 1rem;"><br>
-            <div class="passwordDiv">  <input type="checkbox" id="showSignupPasswordCheckbox"> <label>Show Password</label></div>
-            <!-- <span class="underline"></span> -->
-    
-    <button id="signUp">SignUp</button><br>
-    <div class="mySpan"><span class="para1">Already a member? &nbsp <a href="./login/index.html">Signin Now</a></span></div>
-        </div></div>
-   
-    <script type="module" src='./signUp/script.js'></script>
+        <div class="parent">
+            <div class="signUpCard" id="signUpCard">
+                <h1 class="heading">User SignUp</h1>
+                
+                <div class="input_group">
+                    <i class="fa fa-user"></i>
+                    <input type="text" placeholder="Email Address" class="input_text" id="myEmail"/>
+                </div>
+                <div class="input_group">
+                    <i class="fa fa-unlock-alt"></i>
+                    <input type="password" placeholder="Password" class="input_text" id="myPassword"/>
+                </div>
+                <div class="showPassword"><input type="checkbox" id="showSignUpPasswordCheckbox"><label style="font-size: 1.3rem; margin-left: 0.8rem;">Show Password</label> </div>
+              
+                   <div id="signUp"><button id="signUpButton">Create You Account</button></div> 
+              
+                 <div class="mySpan"> <!--footer -->
+                    <span>Already have an account?</span>
+                    <a href="./login/index.html">Login</a>
+                </div>
+            </div>
+        </div>
+
+    <script src='./signUp/script.js' type="module"></script>
 </body>
+
 </html>
