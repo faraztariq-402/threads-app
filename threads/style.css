@@ -19,6 +19,12 @@
     font-size: 1.1rem;
     margin-top: 0.2rem;
     margin-left: 0.2rem;
+    color: rgb(95, 94, 94);
+  }
+  .hr{
+    color: gray;
+    height: 1px;
+    background-color: gray;
   }
   #postInput {
     border: none;
@@ -31,11 +37,12 @@
     left: 1rem;
     width: 100%;
   }
+ 
   .delete{
-    display: inline;
+    /* display: inline;
     position: relative;
     bottom: 0.4rem;
-    margin-left: 4rem;
+    margin-left: 4rem; */
     cursor: pointer;
   }
   #postContainer{
@@ -51,7 +58,7 @@
     width: 100vw;
     color: #000000;
   }
-
+ 
   .ownerLabel{
     display: block;
     font-size: 0.9rem;
@@ -112,8 +119,15 @@
     height: 4.4rem;
     width: 3.5rem;
   }
+  .timeSpan{
+    display: flex;
+    justify-content: flex-end;
+    font-size: 0.8rem;
+    color: gray;
+  }
   .myPara{
     display: inline;
+    
   }
   .threadsIcon{
     display: flex;
@@ -126,7 +140,10 @@
   }
   .commentRow{
     display: flex;
-    color: red;
+  }
+  .fas.fa-arrow-right{
+    font-size: 1.3rem;
+    cursor: pointer;
   }
   .myDiv{
     margin-top: 2rem;
@@ -135,7 +152,10 @@
     font-size: 2rem;
     margin-top: 2rem;
   }
-  .commentButton,.delete{
+ label{
+  display: block;
+ }
+  .commentButton{
     height: 1.8rem;
     border-radius: 0.4rem;
     width: 7.7rem;
@@ -146,14 +166,15 @@
     margin: 0.5rem;
    
   }
- 
+ .deleteComment{
+  margin-right: 2rem;
+ }
   .delete{
-    margin-left: 2.5rem;
+    font-size: 1.4rem;
+    display: flex;
+    justify-content: flex-end;
   }
-  button:hover{
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
-  }
+  
   .swal2-popup-custom {
     width: 100%;
     height: 100%;
