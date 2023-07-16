@@ -15,6 +15,10 @@
     padding-bottom: 10px;
     background-color: #fff; /* Optional background color */
   }
+  .ownerLabel{
+    font-size: 1rem;
+    color: gray;
+  }
   .comment{
     font-size: 1.1rem;
     margin-top: 0.2rem;
@@ -59,10 +63,7 @@
     color: #000000;
   }
  
-  .ownerLabel{
-    display: block;
-    font-size: 0.9rem;
-  }
+  
   .confirmDeleteButton{
     border-radius: 0.4rem;
     width: 6rem;
@@ -140,6 +141,9 @@
   }
   .commentRow{
     display: flex;
+  }
+  .commentUser{
+    margin-right: 1rem;
   }
   .fas.fa-arrow-right{
     font-size: 1.3rem;

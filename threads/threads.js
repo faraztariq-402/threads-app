@@ -88,7 +88,8 @@ post.addEventListener('click', () => {
         await addDoc(postCollection, {
           post: postInput.value,
           userId: currentUser.uid,
-          timestamp: new Date() // Add the timestamp field with the current date and time
+          timestamp: new Date(), // Add the timestamp field with the current date and time
+          currentUser: currentUser.email 
         });
       } catch (error) {
         console.error('Error adding document:', error);
@@ -123,13 +124,14 @@ const getDataFromFirestore = async () => {
     const data = snapshot.data();
 
     const userDoc = await getDoc(doc(usersCollection, data.userId)); // Fetch the user document using userId
-    const ownerEmail = userDoc.exists() ? userDoc.data().email : 'Unknown User';
 
     let div = document.createElement('div');
 
-    // let ownerLabel = document.createElement('label');
-    // ownerLabel.textContent = `Owner: ${ownerEmail}`;
-    // div.appendChild(ownerLabel);
+    let ownerLabel = document.createElement('label');
+    ownerLabel.classList.add('ownerLabel')
+    ownerLabel.textContent = data.currentUser;
+    ownerLabel.textContent= ownerLabel.textContent.replace(/@gmail\.com$/, "")
+    div.appendChild(ownerLabel);
 
     let hr = document.createElement('hr');
     hr.classList.add("hr");
@@ -182,7 +184,8 @@ div.appendChild(span);
       await addDoc(commentsCollection, {
         postId: docId,
         comment: commentText,
-        userId: currentUser.uid
+        userId: currentUser.uid,
+        userComment : currentUser.email
       });
       commentInput.value = '';
       getCommentsForPost(docId, commentContainer, div);
@@ -221,7 +224,7 @@ const getPostTime = (timestamp) => {
 
 const getCommentsForPost = async (postId, container, div) => {
   const commentsQuerySnapshot = await getDocs(query(collection(db, 'comments'), where('postId', '==', postId)));
-  
+
   // Remove existing comments from the container
   container.innerHTML = '';
 
@@ -237,6 +240,7 @@ const getCommentsForPost = async (postId, container, div) => {
       let commentDelete = document.createElement('i');
       commentDelete.classList.add('deleteComment');
       commentDelete.innerHTML = '<i class="fas fa-trash"></i>'; // Replace button text with Font Awesome icon
+      commentElement.appendChild(commentDelete);
 
       // Add the event listener for comment deletion
       commentDelete.addEventListener('click', async () => {
@@ -247,16 +251,21 @@ const getCommentsForPost = async (postId, container, div) => {
           console.log('Comment deleted successfully!');
         }
       });
-
-      commentElement.appendChild(commentDelete);
     }
 
+    let commentUser = document.createElement("span");
+    commentUser.classList.add("commentUser") // Corrected this line
+    commentUser.textContent = commentData.userComment.replace(/@gmail\.com$/, ""); // Corrected this line
+    commentElement.appendChild(commentUser);
+
     let commentText = document.createElement('span');
+    commentText.style.color = 'black'
     commentText.textContent = commentData.comment;
     commentElement.appendChild(commentText);
   });
 
   console.log('Data retrieved from Firestore');
 };
+
 }
 getDataFromFirestore()
