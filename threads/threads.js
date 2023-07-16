@@ -20,15 +20,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+let cancelButton = document.getElementById("cancelButton");
+
 
 let postContainer = document.getElementById("postContainer");
-
+let postDiv = document.getElementById("postDiv");
 let createPost = document.getElementById("createPost");
 let post = document.querySelector('.post');
 let user = document.querySelector('.user');
 let userPara = document.querySelector('#userPara');
 let home = document.querySelector('.home');
-
+let userLabel = document.querySelector('#userLabel');
 let currentUser;
 
 
@@ -55,66 +57,70 @@ const usersCollection = collection(db, "users");
 home.addEventListener("click", () => {
   postContainer.style.display = 'block';
   userDiv.style.display = 'none';
+ postDiv.style.display = 'none'
+
 });
 
 user.addEventListener("click", () => {
   postContainer.style.display = 'none';
+ postDiv.style.display = 'none'
+
   userDiv.style.display = 'block';
   userDiv.innerHTML = `Current User: ${currentUser.email}`;
 });
-
-post.addEventListener('click', () => {
-  Swal.fire({
-    title: 'New Thread',
-    html: `
-      <div class="underline"></div>
-      <img src="./images/user_profile-removebg-preview.png" class="userProfile">
-      <label class="userName">${currentUser.email}</label>
-      <input id="postInput" type="text" class="swal2-input" placeholder="Start a thread...">
-      <p class="reply">Anyone can reply</p>
-    `,
-    showCancelButton: true,
-    cancelButtonText: 'Cancel',
-    confirmButtonText: 'Post',
-    showLoaderOnConfirm: true,
-    customClass: {
-      popup: 'swal2-popup-custom',
-      cancelButton: 'swal2-cancel-button-custom'
-    },
-    preConfirm: async () => {
-      try {
-        const postInput = Swal.getPopup().querySelector('#postInput');
-        const postCollection = collection(db, 'posts');
-        await addDoc(postCollection, {
-          post: postInput.value,
-          userId: currentUser.uid,
-          timestamp: new Date(), // Add the timestamp field with the current date and time
-          currentUser: currentUser.email 
-        });
-      } catch (error) {
-        console.error('Error adding document:', error);
-        Swal.showValidationMessage('Error adding post. Please try again.'); // Show an error message in the SweetAlert dialog
-      }
-    },
-    allowOutsideClick: () => !Swal.isLoading(),
-    didOpen: () => {
-      const postInput = Swal.getPopup().querySelector('#postInput');
-      postInput.focus();
-    }
-  }).then((result) => {
-    if (result.isConfirmed) {
-      postContainer.innerHTML = '';
-      getDataFromFirestore();
-      console.log("Data added to Firestore successfully");
-    }
-  });
+post.addEventListener('click', async () => {
+  postDiv.style.display = 'block';
+  userDiv.style.display = 'none';
+  postContainer.style.display = 'none';
+  userLabel.innerHTML = currentUser.email;
 });
 
+// Assuming the element with ID "postButton" is the one you want to handle the post creation
+const postButton = document.getElementById("postButton");
+postButton.addEventListener("click", async () => {
+  try {
+    const postInput = document.querySelector('#myUser').value;
+    postInput.focus()
+    const postCollection = collection(db, 'posts');
+postContainer.innerHTML = '';
+    await addDoc(postCollection, {
+      post: postInput,
+      userId: currentUser.uid,
+      timestamp: new Date(), // Add the timestamp field with the current date and time
+      currentUser: currentUser.email 
+    });
+
+    document.querySelector('#myUser').value = '';
+    const inputElement = document.querySelector('#myUser');
+    inputElement.focus();
+    getDataFromFirestore();
+    postContainer.style.display = 'block';
+    userDiv.style.display = 'none';
+   postDiv.style.display = 'none'
+    console.log("Data added to Firestore successfully");
+  } catch (error) {
+    console.error('Error adding document:', error);
+    // Handle the error as needed, e.g., show an error message to the user.
+  }
+
+});
+  cancelButton.addEventListener("click", ()=>{
+    postContainer.style.display = 'block';
+    userDiv.style.display = 'none';
+   postDiv.style.display = 'none'
+  })
 const deletePost = async (postId) => {
   await deleteDoc(doc(db, 'posts', postId));
   getDataFromFirestore();
   alert('Post deleted successfully!');
-};
+}
+
+// post.addEventListener('click', () => {
+
+
+// });
+
+
 const getDataFromFirestore = async () => {
   const querySnapshot = await getDocs(collection(db, 'posts'));
   postContainer.innerHTML = '';
@@ -136,6 +142,9 @@ const getDataFromFirestore = async () => {
     let hr = document.createElement('hr');
     hr.classList.add("hr");
     let para = document.createElement('p');
+    let timeAndDeletePostDiv = document.createElement('div')
+    timeAndDeletePostDiv.classList.add("timeAndDeletePostDiv")
+    // timeAndDeletePostDiv.textContent = "ff"
     let span = document.createElement("span");
     span.classList.add('timeSpan');
     span.textContent = getPostTime(data.timestamp); // Pass the timestamp field to getPostTime
@@ -143,24 +152,28 @@ const getDataFromFirestore = async () => {
     para.classList.add('myPara');
     div.classList.add('myDiv');
     div.appendChild(para);
-
+div.appendChild(timeAndDeletePostDiv)
     
 
     const postUserId = data.userId;
-    if (currentUser && currentUser.uid === postUserId) {
+    
       let deleteButton = document.createElement('i');
 deleteButton.classList.add('delete');
 deleteButton.innerHTML = '<i class="fas fa-trash"></i>'; // Replace button text with Font Awesome icon
-div.appendChild(deleteButton);
+timeAndDeletePostDiv.appendChild(deleteButton);
 
       deleteButton.addEventListener('click', () => {
+        if (currentUser && currentUser.uid === postUserId) {
         const confirmDelete = confirm('Are you sure you want to delete this post?');
         if (confirmDelete) {
           deletePost(docId);
         }
+      }else{
+        alert("You have no access to delete this post")
+      }
       });
-    }
-div.appendChild(span);
+    
+timeAndDeletePostDiv.appendChild(span);
     let commentContainer = document.createElement('div');
     commentContainer.classList.add('commentContainer');
     div.appendChild(commentContainer);
@@ -176,6 +189,7 @@ div.appendChild(span);
 
     let commentButton = document.createElement('i');
     commentButton.innerHTML = '<i class="fas fa-arrow-right"></i>'; // Replace button text with Font Awesome icon
+    commentButton.classList.add("addComment")
     commentRow.appendChild(commentButton);
 
     commentButton.addEventListener('click', async () => {
@@ -236,7 +250,7 @@ const getCommentsForPost = async (postId, container, div) => {
     commentElement.classList.add('comment');
     container.appendChild(commentElement);
 
-    if (currentUser && currentUser.uid === commentUserId) {
+    
       let commentDelete = document.createElement('i');
       commentDelete.classList.add('deleteComment');
       commentDelete.innerHTML = '<i class="fas fa-trash"></i>'; // Replace button text with Font Awesome icon
@@ -244,14 +258,25 @@ const getCommentsForPost = async (postId, container, div) => {
 
       // Add the event listener for comment deletion
       commentDelete.addEventListener('click', async () => {
-        const confirmDelete = confirm('Are you sure you want to delete this comment?');
+        if (currentUser && currentUser.uid !== commentUserId) {
+        console.log("You have no access to delete this comment")
+
+          alert("You have no access to delete this comment") }
+        else{
+           const confirmDelete = confirm('Are you sure you want to delete this comment?');
         if (confirmDelete) {
           await deleteDoc(doc(db, 'comments', commentSnapshot.id));
           getCommentsForPost(postId, container, div); // Fetch and add the updated comments
           console.log('Comment deleted successfully!');
         }
+         
+        }
+     
       });
-    }
+
+
+      
+    
 
     let commentUser = document.createElement("span");
     commentUser.classList.add("commentUser") // Corrected this line

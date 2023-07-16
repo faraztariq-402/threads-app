@@ -11,18 +11,36 @@
     <link rel="shortcut icon" href="./images/threads.webp" type="image/x-icon">
 </head>
 <body>
-    
-    <div class="threadsIcon"><img src="./images/threads_2-removebg-preview.png"></div>
-    <div id="createPost"></div>
+   
+    <div class="completeContainer">
+   <div class="threadsIcon"><img src="./images/threads_2-removebg-preview.png"></div>
+     <!-- <div id="createPost"></div> -->
     <div id="postContainer"></div>
 <div id="userDiv" style="display: none;"></div>
+<div id="postDiv" style="display: none;">
+    
+          <a href="" id="cancelButton" style="float: left;">Cancel</a href=""><div class="header"><h2 style="text-align: center;">New Thread</h2></div>
+          <hr>
+         <div class="myParent"><img src="./images/user_profile-removebg-preview.png" class="faraz">
+          <div class="userLabel"><label id="userLabel"></label>
+          <input id="myUser" placeholder="Start a thread..."></div></div>
+          <div class="footer"><p>Anyone can reply</p><a href="" id="postButton">Post</a href=""></div>
+          
+            
+          </div>
+      
+</div>
+
 <div class="icons">
     <div class="home"><i class="fas fa-home" style="color: black;"></i></div>
     <div class="post"><i class="fas fa-pen-alt" style="color: black;" id="post"></i></div>
     <div class="user"><p id="userPara" style="display: none;"></p><i class="fas fa-user" style="color: black;"></i></div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</div>
+<!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
 
     <script type="module" src="./threads.js"></script>
 </body>
 </html>
+
+  
