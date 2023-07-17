@@ -24,7 +24,6 @@ let cancelButton = document.getElementById("cancelButton");
 
 
 let postContainer = document.getElementById("postContainer");
-let postDiv = document.getElementById("postDiv");
 let createPost = document.getElementById("createPost");
 let post = document.querySelector('.post');
 let user = document.querySelector('.user');
@@ -57,58 +56,59 @@ const usersCollection = collection(db, "users");
 home.addEventListener("click", () => {
   postContainer.style.display = 'block';
   userDiv.style.display = 'none';
- postDiv.style.display = 'none'
 
 });
 
 user.addEventListener("click", () => {
   postContainer.style.display = 'none';
- postDiv.style.display = 'none'
 
   userDiv.style.display = 'block';
   userDiv.innerHTML = `Current User: ${currentUser.email}`;
 });
-post.addEventListener('click', async () => {
-  postDiv.style.display = 'block';
-  userDiv.style.display = 'none';
-  postContainer.style.display = 'none';
-  userLabel.innerHTML = currentUser.email;
-});
 
-// Assuming the element with ID "postButton" is the one you want to handle the post creation
-const postButton = document.getElementById("postButton");
-postButton.addEventListener("click", async () => {
-  try {
-    const postInput = document.querySelector('#myUser').value;
-    postInput.focus()
-    const postCollection = collection(db, 'posts');
-postContainer.innerHTML = '';
-    await addDoc(postCollection, {
-      post: postInput,
-      userId: currentUser.uid,
-      timestamp: new Date(), // Add the timestamp field with the current date and time
-      currentUser: currentUser.email 
+  post.addEventListener('click', () => {
+    Swal.fire({
+      title: 'New Thread',
+      html: `
+        <input id="postInput" type="text" class="swal2-input" placeholder="Start a thread...">
+      `,
+      showCancelButton: true,
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Post',
+      showLoaderOnConfirm: true,
+      customClass: {
+        popup: 'swal2-popup-custom',
+        cancelButton: 'swal2-cancel-button-custom'
+      },
+      preConfirm: async () => {
+        try {
+          const postInput = Swal.getPopup().querySelector('#postInput');
+          const postCollection = collection(db, 'posts');
+          await addDoc(postCollection, {
+            post: postInput.value,
+            userId: currentUser.uid,
+            timestamp: new Date(), // Add the timestamp field with the current date and time
+          currentUser: currentUser.email
+          });
+        } catch (error) {
+          console.error('Error adding document:', error);
+          Swal.showValidationMessage('Error adding post. Please try again.'); // Show an error message in the SweetAlert dialog
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+      didOpen: () => {
+        const postInput = Swal.getPopup().querySelector('#postInput');
+        postInput.focus();
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        postContainer.innerHTML = '';
+        getDataFromFirestore();
+        console.log("Data added to Firestore successfully");
+      }
     });
-
-    document.querySelector('#myUser').value = '';
-    const inputElement = document.querySelector('#myUser');
-    inputElement.focus();
-    getDataFromFirestore();
-    postContainer.style.display = 'block';
-    userDiv.style.display = 'none';
-   postDiv.style.display = 'none'
-    console.log("Data added to Firestore successfully");
-  } catch (error) {
-    console.error('Error adding document:', error);
-    // Handle the error as needed, e.g., show an error message to the user.
-  }
-
-});
-  cancelButton.addEventListener("click", ()=>{
-    postContainer.style.display = 'block';
-    userDiv.style.display = 'none';
-   postDiv.style.display = 'none'
-  })
+  });
+  
 const deletePost = async (postId) => {
   await deleteDoc(doc(db, 'posts', postId));
   getDataFromFirestore();
@@ -133,11 +133,11 @@ const getDataFromFirestore = async () => {
 
     let div = document.createElement('div');
 
-    let ownerLabel = document.createElement('label');
-    ownerLabel.classList.add('ownerLabel')
-    ownerLabel.textContent = data.currentUser;
-    ownerLabel.textContent= ownerLabel.textContent.replace(/@gmail\.com$/, "")
-    div.appendChild(ownerLabel);
+    let myLabel = document.createElement('label');
+    myLabel.classList.add('myLabel')
+    myLabel.textContent = data.currentUser;
+    myLabel.textContent= myLabel.textContent.replace(/@gmail\.com$/, "")
+    div.appendChild(myLabel);
 
     let hr = document.createElement('hr');
     hr.classList.add("hr");
@@ -156,24 +156,36 @@ div.appendChild(timeAndDeletePostDiv)
     
 
     const postUserId = data.userId;
-    
+    timeAndDeletePostDiv.appendChild(span);
       let deleteButton = document.createElement('i');
 deleteButton.classList.add('delete');
 deleteButton.innerHTML = '<i class="fas fa-trash"></i>'; // Replace button text with Font Awesome icon
 timeAndDeletePostDiv.appendChild(deleteButton);
 
-      deleteButton.addEventListener('click', () => {
-        if (currentUser && currentUser.uid === postUserId) {
-        const confirmDelete = confirm('Are you sure you want to delete this post?');
-        if (confirmDelete) {
-          deletePost(docId);
-        }
-      }else{
-        alert("You have no access to delete this post")
-      }
-      });
-    
-timeAndDeletePostDiv.appendChild(span);
+deleteButton.addEventListener('click', async () => {
+  if (currentUser && currentUser.uid === postUserId) {
+    const confirmDelete = await Swal.fire({
+      icon: 'question',
+      title: 'Delete Post',
+      text: 'Are you sure you want to delete this post?',
+      showCancelButton: true,
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+    });
+
+    if (confirmDelete.isConfirmed) {
+      deletePost(docId);
+    }
+  } else {
+    // Show SweetAlert dialog with the error message
+    Swal.fire({
+      icon: 'error',
+      title: 'Access Denied',
+      text: 'You have no access to delete this post',
+    });
+  }
+});
+
     let commentContainer = document.createElement('div');
     commentContainer.classList.add('commentContainer');
     div.appendChild(commentContainer);
@@ -259,19 +271,28 @@ const getCommentsForPost = async (postId, container, div) => {
       // Add the event listener for comment deletion
       commentDelete.addEventListener('click', async () => {
         if (currentUser && currentUser.uid !== commentUserId) {
-        console.log("You have no access to delete this comment")
-
-          alert("You have no access to delete this comment") }
-        else{
-           const confirmDelete = confirm('Are you sure you want to delete this comment?');
-        if (confirmDelete) {
-          await deleteDoc(doc(db, 'comments', commentSnapshot.id));
-          getCommentsForPost(postId, container, div); // Fetch and add the updated comments
-          console.log('Comment deleted successfully!');
+          // Show SweetAlert dialog with the error message
+          Swal.fire({
+            icon: 'error',
+            title: 'Access Denied',
+            text: 'You have no access to delete this comment',
+          });
+        } else {
+          const confirmDelete = await Swal.fire({
+            icon: 'question',
+            title: 'Delete Comment',
+            text: 'Are you sure you want to delete this comment?',
+            showCancelButton: true,
+            confirmButtonText: 'Delete',
+            cancelButtonText: 'Cancel',
+          });
+      
+          if (confirmDelete.isConfirmed) {
+            await deleteDoc(doc(db, 'comments', commentSnapshot.id));
+            getCommentsForPost(postId, container, div); // Fetch and add the updated comments
+            console.log('Comment deleted successfully!');
+          }
         }
-         
-        }
-     
       });
 
 
