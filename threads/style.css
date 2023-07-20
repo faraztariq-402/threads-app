@@ -3,21 +3,23 @@
   font-family: 'Ubuntu', sans-serif;
 }
 .completeContainer{
-  width: 500px;
+  width: 70vw;
   margin: auto;
 }
 .icons {
     position: fixed;
     bottom: 0;
-    /* margin: auto; */
-    box-shadow: 1rem black;
-    width: 100vw;
-  /* margin: auto; */
-  margin-top: 1rem;
-    display: flex;
-    justify-content: space-between;
+ display: flex;
+ width: 70vw;
+justify-content: space-between;
     padding-bottom: 10px;
-    background-color: #fff;
+    
+}
+.fas.fa-arrow-right{
+  cursor: pointer;
+}
+.fas.fa-trash{
+  cursor: pointer;
 }
   .ownerLabel{
     font-size: 1rem;
@@ -29,13 +31,12 @@
   }
   .comment{
     font-size: 1.1rem;
-    margin-top: 0.2rem;
     margin-left: 0.2rem;
     color: rgb(95, 94, 94);
   }
   .hr{
     color: gray;
-    height: 3px;
+    height: 1px;
     background-color: gray;
   }
   /* #postInput {
@@ -98,11 +99,7 @@
   #postInput::placeholder{
      color: #000000;
   }
-  .icons .home,
-  .icons .post,
-  .icons .user {
-    margin: 0 14px; 
-  }
+  
 
   .icons i {
     font-size: 2rem;
@@ -121,10 +118,13 @@
     float: right;
   }
   .myPara{
-    display: inline;
+   height: 5rem;
+   overflow-wrap: break-word;
     font-size: 1.7rem;
   }
   .threadsIcon{
+   
+
     display: flex;
     justify-content: center;
   }
@@ -151,12 +151,10 @@
     margin-top: 2rem;
   }
   #userDiv{
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-top: 2rem;
   }
- label{
-  display: block;
- }
+ 
   .commentButton{
     height: 1.8rem;
     border-radius: 0.4rem;
@@ -177,6 +175,11 @@
   .swal2-popup-custom {
     height: 400px; /* Adjust the height as needed */
   }
+  .labelAndDeletePostSpan{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
  .deleteComment{
   margin-right: 1rem;
   float: right;
@@ -189,11 +192,8 @@
   }
   
  .myLabel{
-  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  font-size: 2.2rem;
  }
  
   
-  
-@media screen and (max-width:500px) {
-  
-}

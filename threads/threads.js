@@ -132,12 +132,16 @@ const getDataFromFirestore = async () => {
     const userDoc = await getDoc(doc(usersCollection, data.userId)); // Fetch the user document using userId
 
     let div = document.createElement('div');
-
+let labelAndDeletePostSpan = document.createElement("div")
+labelAndDeletePostSpan.classList.add("labelAndDeletePostSpan")
+div.appendChild(labelAndDeletePostSpan)
+let labelDiv = document.createElement("div")
     let myLabel = document.createElement('label');
     myLabel.classList.add('myLabel')
     myLabel.textContent = data.currentUser;
     myLabel.textContent= myLabel.textContent.replace(/@gmail\.com$/, "")
-    div.appendChild(myLabel);
+    labelAndDeletePostSpan.appendChild(labelDiv)
+    labelDiv.appendChild(myLabel);
 
     let hr = document.createElement('hr');
     hr.classList.add("hr");
@@ -151,9 +155,9 @@ const getDataFromFirestore = async () => {
     para.innerHTML = data.post;
     para.classList.add('myPara');
     div.classList.add('myDiv');
-    div.appendChild(para);
-div.appendChild(timeAndDeletePostDiv)
-    
+   
+    labelAndDeletePostSpan.appendChild(timeAndDeletePostDiv)
+     div.appendChild(para);
 
     const postUserId = data.userId;
     timeAndDeletePostDiv.appendChild(span);
@@ -235,7 +239,7 @@ const getPostTime = (timestamp) => {
   const seconds = Math.floor((currentDate - postDate) / 1000); // Calculate the time difference in seconds
 
   if (seconds < 60) {
-    return `few seconds`;
+    return `now`;
   } else if (seconds < 3600) {
     const minutes = Math.floor(seconds / 60);
     return `${minutes}m`;
