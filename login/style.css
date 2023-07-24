@@ -88,12 +88,38 @@ font-size: 1.2rem;
   justify-content: center;
   align-items: center;
 }
+#loginWithGoogle{
+  color: #00ccff;
+  border-radius: 50px;
+  transition: transform 1.7s;
+  
+   display: flex;
+   justify-content: center;
+margin-top: 0.5rem;
+border: 1px solid #00ccff;
+height: 2.3rem;
+}
+#loginWithGoogle:hover {
+
+  transform: scale(1.15); 
+}
+#googleLogin{
+  color: #00ccff;
+  background-color: #0c1022;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ border: none;
+ cursor: pointer;
+font-size: 22px;
+
+}
 .parent{
     position: relative;
     width: 400px;
-    height: 470px;
+    height: 513px;
     max-width: 400px;
-    max-height: 470px;
+    max-height: 499px;
     background: #040717;
     border-radius: 50px 5px;
     display: flex;

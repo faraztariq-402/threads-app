@@ -18,14 +18,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-let googleLogin = document.getElementById("googleLogin")
+let loginWithGoogle = document.getElementById("loginWithGoogle")
 const provider = new GoogleAuthProvider();
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
  let loginEmail = document.getElementById('loginEmail')
     let loginPassword = document.getElementById('loginPassword')
 let loginButton = document.getElementById('loginButton')
-googleLogin.addEventListener("click", ()=>{
+loginWithGoogle.addEventListener("click", ()=>{
   signInWithPopup(auth, provider)
   .then((result) => {
     // This gives you a Google Access Token. You can use it to access the Google API.
