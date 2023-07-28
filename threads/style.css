@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
 *{
   font-family: 'Ubuntu', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 .completeContainer{
   width: 70vw;
@@ -10,9 +13,10 @@
     position: fixed;
     bottom: 0;
  display: flex;
+ background-color: white;
  width: 70vw;
 justify-content: space-between;
-    padding-bottom: 10px;
+    padding-bottom: 7px;
     
 }
 .fas.fa-arrow-right{
@@ -21,23 +25,121 @@ justify-content: space-between;
 .fas.fa-trash{
   cursor: pointer;
 }
+.home{
+position: relative;
+}
+.home::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  /* margin-top: 0.3rem; */
+  left: 0;
+  width: 100%;
+  height: 3px;
+  
+  border-radius: 15px;
+  background-color: rgb(11, 11, 12); /* Replace with the color you want for the underline */
+  display: none; /* Initially hide the underline */
+}
+
+
+.home:hover::after {
+  display: block; /* Show the underline on hover */
+}
+.headerContainer {
+  display: flex;
+  justify-content: space-between; /* To push the "Cancel" link to the left */
+  align-items: center;
+  margin-top: 0.7rem;
+}
+.cancel{
+  cursor: pointer;
+}
+.horizontalLine{
+  margin-top: 0.87rem;
+  height: 0.8px;
+  background-color: lightgray;
+  border: none;
+}
+.profileAndLabel{
+  display: flex;
+  margin-top: 0.6rem;
+}
+.headerOfCreatingPostContainer {
+  flex: 1; /* To allow the <h1> container to take available space */
+  text-align: center; /* To center the <h1> element horizontally */
+  margin-right: 2rem;
+}
+.postHeader{
+  font-weight: 1200;
+}
+.post::after {
+  content: "";
+  position: absolute;
+  bottom: -5px; /* Adjust this value to add the desired margin from the top */
+  left: -4px;
+  width: 100%;
+  height: 3px;
+  border-radius: 15px;
+  background-color: rgb(11, 11, 12); /* Replace with the color you want for the underline */
+  display: none; /* Initially hide the underline */
+}
+
+.post:hover::after {
+  display: block; /* Show the underline on hover */
+}
+
+  .user{
+    position: relative;
+    }
+    .user::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      /* margin-top: 0.3rem; */
+      border-radius: 15px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      
+      background-color: rgb(11, 11, 12); /* Replace with the color you want for the underline */
+      display: none; /* Initially hide the underline */
+    }
+    
+    .user:hover::after {
+      display: block; /* Show the underline on hover */
+    }
   .ownerLabel{
     font-size: 1rem;
     color: gray;
   }
   .addComment{
     font-size: 1.3rem;
+    cursor: pointer;
     color: rgb(112, 112, 112);
   }
   .comment{
     font-size: 1.1rem;
-    margin-left: 0.2rem;
+    margin-top: 0.9rem;
     color: rgb(95, 94, 94);
   }
-  .hr{
-    color: gray;
-    height: 1px;
-    background-color: gray;
+  .para{
+    color: rgb(112, 102, 102);
+  }
+  .postButton{
+    color: rgb(170, 101, 235);
+  }
+.paraAndPostButton{
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+  #postContainer{
+    margin-bottom: 4rem;
+  }
+  #postInput{
+    height: 210px;
+    margin-top: 0.3rem;
   }
   /* #postInput {
     border: none;
@@ -99,10 +201,43 @@ justify-content: space-between;
   #postInput::placeholder{
      color: #000000;
   }
-  
+  .fa-gray {
+    color: gray;
+  }
+  .likesAndReplies{
+    color: rgb(145, 136, 136);
+    margin-top: 1.1rem;
+}
 
+ 
+
+.myHr{
+  width: 1px;
+height:100px;
+border: none;
+color: rgb(255, 255, 255);
+height: 0.5px;
+}
+.parentProfile{
+  /* display: flex; */
+  display: none;
+  align-items: center;
+  flex-direction: column;
+  float: left;
+  margin-right: 1rem;
+}
+.threadsIcon{
+  text-align: center;
+}
+.myProfile{
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+  background-color: gray;
+}
   .icons i {
     font-size: 2rem;
+    color: rgb(255, 255, 255);
   }
   .threadsIcon img{
     height: 4.4rem;
@@ -110,17 +245,20 @@ justify-content: space-between;
   }
   .timeSpan{
    margin-right: 1rem;
-    font-size: 0.8rem;
-    color: gray;
+    font-size: 0.9rem;
+    color: rgb(145, 136, 136);
   }
   .timeAndDeletePostDiv{
     display: inline;
     float: right;
   }
+  #createPostConatiner{
+    display: none;
+  }
   .myPara{
-   height: 5rem;
    overflow-wrap: break-word;
-    font-size: 1.7rem;
+    font-size: 1.5rem;
+    color: #383333;
   }
   .threadsIcon{
    
@@ -128,13 +266,20 @@ justify-content: space-between;
     display: flex;
     justify-content: center;
   }
+  .myCommentIcon, .repost ,.share{
+    margin-left: 1rem;
+    cursor: pointer;
+  }
+  .like{
+    cursor: pointer;
+  }
   .commentInput{
-    display: block;
     border: none;
     outline: none;
   }
   .commentRow{
     display: flex;
+    margin-top: 0.5rem;
   }
 
 
@@ -180,6 +325,9 @@ justify-content: space-between;
     align-items: center;
     justify-content: space-between;
   }
+  .labelAndInput{
+    margin-left: 0.6rem;
+  }
  .deleteComment{
   margin-right: 1rem;
   float: right;
@@ -190,10 +338,34 @@ justify-content: space-between;
 
    margin-right: 1rem;
   }
+  .myIcon{
+    display: flex;
+  align-items: center;
+  margin-top: 0.6rem;
   
+  }
  .myLabel{
   margin-bottom: 0.8rem;
-  font-size: 2.2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+
  }
- 
+ .grandCommentContainer{
+  margin-top: 0.5rem;
+ }
+  .hr{
+    margin-top: 1.23rem;
+    height: 0.8px;
+    background-color: lightgray;
+    border: none;
+  }
+  @media screen and (max-width:500px) {
+    .completeContainer{
+      width: 95vw;
+    }
+    .icons {
   
+   width: 95vw;
+
+  }
+  }
