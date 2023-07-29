@@ -139,8 +139,10 @@ position: relative;
   }
   #postInput{
     height: 210px;
+    
     margin-top: 0.3rem;
   }
+ 
   /* #postInput {
     border: none;
     outline: none;
@@ -257,8 +259,9 @@ height: 0.5px;
   }
   .myPara{
    overflow-wrap: break-word;
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: #383333;
+    margin-top: 0.4rem;
   }
   .threadsIcon{
    
@@ -294,6 +297,17 @@ height: 0.5px;
 
   .myDiv{
     margin-top: 2rem;
+    display: flex;
+  }
+  .profileHr{
+    /* margin-top: 0.5rem;
+    margin-bottom: 0.5rem; */
+   height: 100%;
+   /* background-color: rgb(236, 231, 231); */
+  }
+  .secondMain{
+    margin-left: 0.3rem;
+    width: 87%;
   }
   #userDiv{
     font-size: 1.5rem;
@@ -329,26 +343,46 @@ height: 0.5px;
     margin-left: 0.6rem;
   }
  .deleteComment{
-  margin-right: 1rem;
   float: right;
  }
   .delete{
     font-size: 1rem;
     cursor: pointer;
 
-   margin-right: 1rem;
   }
   .myIcon{
     display: flex;
   align-items: center;
-  margin-top: 0.6rem;
+  margin-top: 1.4rem;
   
   }
+  .postProfileAndLabel{
+    display: flex;
+    align-items: center;
+  }
+  .main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+ 
+  .parent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .postingHr{
+    height: 100px;
+  }
+  .postingSmallDiv{
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+    border: 2px solid gray;
+  }
  .myLabel{
-  margin-bottom: 0.8rem;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
-
  }
  .grandCommentContainer{
   margin-top: 0.5rem;
@@ -368,4 +402,9 @@ height: 0.5px;
    width: 95vw;
 
   }
+  }
+  @media screen and (max-width:380px) {
+    .secondMain{
+      width: 80%;
+    }
   }

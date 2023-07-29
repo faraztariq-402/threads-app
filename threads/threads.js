@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getAuth, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 import { getFirestore,addDoc, collection,query, orderBy,where, getDocs,getDoc,setDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-
+import { getStorage } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
 
 
 const firebaseConfig = {
@@ -31,6 +31,7 @@ audio.onended = function(){
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 let cancelButton = document.getElementById("cancelButton");
 let threadsIcon = document.querySelector(".threadsIcon")
 let myHome = document.getElementById("myHome");
@@ -127,13 +128,27 @@ createPostContainer.style.display = "none"
     horizontalLine.classList.add("horizontalLine")
     let profileAndLabel = document.createElement("div")
     profileAndLabel.classList.add("profileAndLabel")
+    const profilePictureURL = currentUser.photoURL;
+    let parent = document.createElement("div")
+    parent.classList.add("parent")
+    profileAndLabel.appendChild(parent)
     let userProfile = document.createElement("div")
     userProfile.style.height = "2.4rem"
     userProfile.style.width = "2.4rem"
-    userProfile.style.border = "2px solid gray"
+    userProfile.style.border = "2px solid Gray"
 
     userProfile.style.borderRadius = "50%"
+    userProfile.style.backgroundImage = `url(${profilePictureURL})`;
+  userProfile.style.backgroundSize = "cover";
+  userProfile.style.backgroundPosition = "center";
+  let postingHr = document.createElement("hr")
+  postingHr.style.marginTop = "0.7rem"
+  postingHr.classList.add("postingHr")
+  let postingSmallDiv = document.createElement("div")
+  postingSmallDiv.style.marginTop = "0.7rem"
+  postingSmallDiv.style.backgroundColor = "lightGray"
 
+  postingSmallDiv.classList.add("postingSmallDiv")
     let labelAndInput = document.createElement("div")
     labelAndInput.classList.add("labelAndInput")
     let creatingPostLabel = document.createElement("label")
@@ -159,7 +174,10 @@ createPostContainer.style.display = "none"
     
     createPostContainer.appendChild(horizontalLine);
     createPostContainer.appendChild(profileAndLabel)
-    profileAndLabel.appendChild(userProfile)
+    parent.appendChild(userProfile)
+    parent.appendChild(postingHr)
+    parent.appendChild(postingSmallDiv)
+
     profileAndLabel.appendChild(labelAndInput)
     labelAndInput.appendChild(creatingPostLabel)
     labelAndInput.appendChild(input);
@@ -191,6 +209,7 @@ createPostContainer.style.display = "none"
           userId: currentUser.uid,
           timestamp: new Date(), // Add the timestamp field with the current date and time
           currentUser: currentUser.email,
+         profilePic: currentUser.photoURL,
           likes: 0,
           replies: 0,
         });
@@ -233,40 +252,74 @@ const getDataFromFirestore = async () => {
     const docId = snapshot.id;
     const data = snapshot.data();
     const postRef = doc(db, "posts", docId);
-
+  async function updateRepliesCount(postRef, delta) {
+      const postDoc = await getDoc(postRef);
+      if (!postDoc.exists()) {
+        throw new Error("Post does not exist!");
+      }
+    
+      const currentReplies = postDoc.data().replies;
+    
+      // Update the replies count using the transaction function
+      await setDoc(postRef, { replies: currentReplies + delta }, { merge: true });
+    }
     const userDoc = await getDoc(doc(usersCollection, data.userId)); // Fetch the user document using userId
-let grandParent = document.createElement("div")
-grandParent.classList.add("grandParent")
+
 
     let div = document.createElement('div');
     
-    let parentProfile = document.createElement("div")
-parentProfile.classList.add("parentProfile")
 
-    let profile = document.createElement("div")
-    profile.classList.add("myProfile")
-    let myHr = document.createElement("hr")
-    myHr.classList.add("myHr")
+
     
-    let commentProfiles = document.createElement("div")
-    commentProfiles.classList.add("myProfile")
-    postContainer.appendChild(grandParent)
-    grandParent.appendChild(parentProfile)
-    grandParent.appendChild(div)
-    parentProfile.appendChild(profile)
-    parentProfile.appendChild(myHr)
-    parentProfile.appendChild(commentProfiles)
+ 
+    div.classList.add('myDiv');
+    postContainer.appendChild(div)
+  //  let postWithoutProfile = document.createElement("div")
+  //  postWithoutProfile.classList.add("postwithoutprofile")
+// div.appendChild(postWithoutProfile)
 
+// let labelDiv = document.createElement("div")
+// labelDiv.classList.add("postProfileAndLabel")
+let main = document.createElement("div")
+main.classList.add("main")
+let hello = document.createElement("div")
+hello.classList.add("hello")
+let profileHr = document.createElement("hr")
+profileHr.classList.add("profileHr")
+let smallDiv = document.createElement("div")
+smallDiv.style.height = "1.6rem"
+smallDiv.style.width = "1.4rem"
+smallDiv.style.borderRadius = "50%"
+smallDiv.style.backgroundColor = "lightGray"
+smallDiv.style.marginTop = "0.5rem"
+
+
+
+const myProfilePicture = currentUser.photoURL;
+  hello.style.height = "4.8rem"
+  hello.style.width = "2.6rem"
+  hello.style.marginBottom = "0.5rem"
+  hello.style.border = "2px solid gray"
+  hello.style.borderRadius = "50%"
+  hello.style.backgroundImage = `url(${data.profilePic})`;
+hello.style.backgroundSize = "cover";
+  hello.style.borderRadius = "50%"
+div.appendChild(main)
+main.appendChild(hello)
+main.appendChild(profileHr)
+main.appendChild(smallDiv)
+let secondMain = document.createElement("div")
+secondMain.classList.add("secondMain")
+div.appendChild(secondMain)
 let labelAndDeletePostSpan = document.createElement("div")
 labelAndDeletePostSpan.classList.add("labelAndDeletePostSpan")
-div.appendChild(labelAndDeletePostSpan)
-let labelDiv = document.createElement("div")
+secondMain.appendChild(labelAndDeletePostSpan)
     let myLabel = document.createElement('label');
     myLabel.classList.add('myLabel')
     myLabel.textContent = data.currentUser;
     myLabel.textContent= myLabel.textContent.replace(/@gmail\.com$/, "")
-    labelAndDeletePostSpan.appendChild(labelDiv)
-    labelDiv.appendChild(myLabel);
+    // labelAndDeletePostSpan.appendChild(labelDiv)
+    labelAndDeletePostSpan.appendChild(myLabel);
 
     let hr = document.createElement('hr');
     hr.classList.add("hr");
@@ -279,12 +332,11 @@ let labelDiv = document.createElement("div")
     span.textContent = getPostTime(data.timestamp); // Pass the timestamp field to getPostTime
     para.innerHTML = data.post;
     para.classList.add('myPara');
-    div.classList.add('myDiv');
    let myIcon = document.createElement("div")
 myIcon.classList.add("myIcon")
     labelAndDeletePostSpan.appendChild(timeAndDeletePostDiv)
-     div.appendChild(para);
-div.appendChild(myIcon)
+    secondMain.appendChild(para);
+    secondMain.appendChild(myIcon)
 async function addLikeToCollection(postRef, userId) {
   const likesCollection = collection(db, 'likes');
   await addDoc(likesCollection, {
@@ -414,7 +466,7 @@ myIcon.appendChild(repost)
 myIcon.appendChild(share)
 let likesAndReplies = document.createElement("div")
 likesAndReplies.classList.add("likesAndReplies")
-div.appendChild(likesAndReplies)
+secondMain.appendChild(likesAndReplies)
 let totalReplies = document.createElement("span")
 totalReplies.textContent = `${data.replies} replies . `
 if(data.replies === 1){
@@ -427,7 +479,10 @@ if(data.likes === 1){
 }
 likesAndReplies.appendChild(totalReplies)
 likesAndReplies.appendChild(totalLikes)
-
+likesAndReplies.style.display = "none"
+if(data.likes || data.replies > 0){
+  likesAndReplies.style.display = "block"
+}
     const postUserId = data.userId;
     timeAndDeletePostDiv.appendChild(span);
       let deleteButton = document.createElement('i');
@@ -458,10 +513,21 @@ deleteButton.addEventListener('click', async () => {
     });
   }
 });
+    // async function updateRepliesCount(postRef, delta) {
+    //   const postDoc = await getDoc(postRef);
+    //   if (!postDoc.exists()) {
+    //     throw new Error("Post does not exist!");
+    //   }
+    
+    //   const currentReplies = postDoc.data().replies;
+    
+    //   // Update the replies count using the transaction function
+    //   await setDoc(postRef, { replies: currentReplies + delta }, { merge: true });
+    // }
 let grandCommentContainer = document.createElement("div")
 grandCommentContainer.style.display = 'none'
 grandCommentContainer.classList.add("grandCommentContainer")
-div.appendChild(grandCommentContainer)
+secondMain.appendChild(grandCommentContainer)
     let commentContainer = document.createElement('div');
     commentContainer.classList.add('commentContainer');
     grandCommentContainer.appendChild(commentContainer);
@@ -481,52 +547,63 @@ div.appendChild(grandCommentContainer)
     commentButton.style.width = "20px"
     commentButton.classList.add("addComment")
     commentRow.appendChild(commentButton);
-
     commentButton.addEventListener('click', async () => {
-
-      const commentText = commentInput.value;
-      const commentsCollection = collection(db, 'comments');
-      await addDoc(commentsCollection, {
-        postId: docId,
-        comment: commentText,
-        userId: currentUser.uid,
-        userComment: currentUser.email
-      });
+      const commentText = commentInput.value.trim(); // Get the comment text from the input field and remove leading/trailing spaces
     
-      // Update the replies count in the posts collection
-      await updateRepliesCount(postRef, 1);
-    
-      commentInput.value = '';
-      getCommentsForPost(docId, commentContainer, div);
-      console.log('Comment added to Firestore');
-    });
-    async function updateRepliesCount(postRef, delta) {
-      const postDoc = await getDoc(postRef);
-      if (!postDoc.exists()) {
-        throw new Error("Post does not exist!");
+      if (commentText === '') {
+        // If the comment is empty, don't proceed
+        return;
       }
     
-      const currentReplies = postDoc.data().replies;
+      try {
+        // Create a new document in the "comments" collection
+        const commentsCollection = collection(db, 'comments');
+        await addDoc(commentsCollection, {
+          postId: docId,
+          comment: commentText,
+          userId: currentUser.uid,
+          userComment: currentUser.email,
+          // timestamp: serverTimestamp() // You can also include the timestamp of when the comment was added
+        });
     
-      // Update the replies count using the transaction function
-      await setDoc(postRef, { replies: currentReplies + delta }, { merge: true });
-    }
+        // Update the replies count in the "posts" collection (assuming you have a field for replies in the "posts" collection)
+        await updateRepliesCount(postRef, 1);
+    
+        // Clear the comment input field after successfully adding the comment
+        commentInput.value = '';
+    
+        // Fetch and display the updated comments for the current post
+        getCommentsForPost(docId, commentContainer, div);
+    
+        console.log('Comment added to Firestore successfully!');
+      } catch (error) {
+        console.error('Error adding comment to Firestore:', error);
+      }
+    });
+ 
+    
+    //   // Update the replies count in the posts collection
+    
+    //   commentInput.value = '';
+    //   getCommentsForPost(docId, commentContainer, div);
+    //   console.log('Comment added to Firestore');
+    // });
     commentInput.value = '';
     getCommentsForPost(docId, commentContainer, div);
     console.log('Comment added to Firestore');
-div.appendChild(hr);
+    secondMain.appendChild(hr);
     // postContainer.insertBefore(div, postContainer.firstChild);
   });
-
+  
   console.log('Data retrieved from Firestore');
-
-
-const getPostTime = (timestamp) => {
-  const postDate = timestamp.toDate(); // Convert the Firestore timestamp to a JavaScript Date object
-  const currentDate = new Date();
-
-  const seconds = Math.floor((currentDate - postDate) / 1000); // Calculate the time difference in seconds
-
+  
+  
+  const getPostTime = (timestamp) => {
+    const postDate = timestamp.toDate(); // Convert the Firestore timestamp to a JavaScript Date object
+    const currentDate = new Date();
+    
+    const seconds = Math.floor((currentDate - postDate) / 1000); // Calculate the time difference in seconds
+    
   if (seconds < 60) {
     return `now`;
   } else if (seconds < 3600) {
@@ -542,7 +619,6 @@ const getPostTime = (timestamp) => {
 };
 
 const getCommentsForPost = async (postId, container, div) => {
-  // const commentsQuerySnapshot = await getDocs(query(collection(db, 'comments'), orderBy('timestamp', 'desc'), where('postId', '==', postId)));
   const commentsQuerySnapshot = await getDocs(query(collection(db, 'comments'), where('postId', '==', postId)));
 
   // Remove existing comments from the container
@@ -556,53 +632,52 @@ const getCommentsForPost = async (postId, container, div) => {
     commentElement.classList.add('comment');
     container.appendChild(commentElement);
 
-    
-      let commentDelete = document.createElement('i');
-      commentDelete.classList.add('deleteComment');
-      commentDelete.innerHTML = '<i class="fas fa-trash"></i>'; // Replace button text with Font Awesome icon
-      commentElement.appendChild(commentDelete);
+    let commentDelete = document.createElement('i');
+    commentDelete.classList.add('deleteComment');
+    commentDelete.innerHTML = '<i class="fas fa-trash"></i>'; // Replace button text with Font Awesome icon
+    commentElement.appendChild(commentDelete);
 
-      // Add the event listener for comment deletion
-     commentDelete.addEventListener('click', async () => {
-  if (currentUser && currentUser.uid !== commentUserId) {
-    // Show SweetAlert dialog with the error message
-    Swal.fire({
-      icon: 'error',
-      title: 'Access Denied',
-      text: 'You have no access to delete this comment',
-    });
-  } else {
-    const confirmDelete = await Swal.fire({
-      icon: 'question',
-      title: 'Delete Comment',
-      text: 'Are you sure you want to delete this comment?',
-      showCancelButton: true,
-      confirmButtonText: 'Delete',
-      cancelButtonText: 'Cancel',
-    });
-
-    if (confirmDelete.isConfirmed) {
-      await deleteDoc(doc(db, 'comments', commentSnapshot.id));
-
-      // Update the replies count in the posts collection
-      await updateRepliesCount(postRef, -1);
-
-      getCommentsForPost(postId, commentContainer, div); // Fetch and add the updated comments
-      console.log('Comment deleted successfully!');
-    }
-  }
-});
-
+    // Add the event listener for comment deletion
+    commentDelete.addEventListener('click', async () => {
       
-    
+      if (currentUser && currentUser.uid !== commentUserId) {
+        // Show SweetAlert dialog with the error message
+        Swal.fire({
+          icon: 'error',
+          title: 'Access Denied',
+          text: 'You have no access to delete this comment',
+        });
+      } else {
+        const confirmDelete = await Swal.fire({
+          icon: 'question',
+          title: 'Delete Comment',
+          text: 'Are you sure you want to delete this comment?',
+          showCancelButton: true,
+          confirmButtonText: 'Delete',
+          cancelButtonText: 'Cancel',
+        });
 
-    let commentUser = document.createElement("span");
-    commentUser.classList.add("commentUser") // Corrected this line
-    commentUser.textContent = commentData.userComment.replace(/@gmail\.com$/, ""); // Corrected this line
+        if (confirmDelete.isConfirmed) {
+          await deleteDoc(doc(db, 'comments', commentSnapshot.id));
+
+          // Update the replies count for the post
+          await updateRepliesCount(postId, -1);
+
+          // Fetch and display the updated comments for the current post
+          getCommentsForPost(postId, container, div);
+
+          console.log('Comment deleted successfully!');
+        }
+      }
+    });
+
+    let commentUser = document.createElement('span');
+    commentUser.classList.add('commentUser');
+    commentUser.textContent = commentData.userComment.replace(/@gmail\.com$/, '');
     commentElement.appendChild(commentUser);
 
     let commentText = document.createElement('span');
-    commentText.style.color = 'black'
+    commentText.style.color = 'black';
     commentText.textContent = commentData.comment;
     commentElement.appendChild(commentText);
   });
@@ -610,5 +685,29 @@ const getCommentsForPost = async (postId, container, div) => {
   console.log('Data retrieved from Firestore');
 };
 
+// Function to update the replies count for the post
+async function updateRepliesCount(postId, delta) {
+  const postRef = doc(db, 'posts', postId);
+  const postDoc = await getDoc(postRef);
+  if (!postDoc.exists()) {
+    throw new Error('Post does not exist!');
+  }
+
+  const currentReplies = postDoc.data().replies;
+
+  // Update the replies count using the transaction function
+  await setDoc(postRef, { replies: currentReplies + delta }, { merge: true });
+}
+
 }
 getDataFromFirestore()
+   // commentButton.addEventListener('click', async () => {
+
+    //   const commentText = commentInput.value;
+    //   const commentsCollection = collection(db, 'comments');
+    //   await addDoc(commentsCollection, {
+    //     postId: docId,
+    //     comment: commentText,
+    //     userId: currentUser.uid,
+    //     userComment: currentUser.email
+    //   });    
