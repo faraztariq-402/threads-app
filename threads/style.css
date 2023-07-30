@@ -73,6 +73,9 @@ position: relative;
 .postHeader{
   font-weight: 1200;
 }
+.post{
+  position: relative;
+}
 .post::after {
   content: "";
   position: absolute;
@@ -285,7 +288,10 @@ height: 0.5px;
     margin-top: 0.5rem;
   }
 
-
+#userDiv{
+  display: flex ;
+  justify-content: space-between;
+}
  
   #postInput{
     border: none;
@@ -348,7 +354,9 @@ height: 0.5px;
   .delete{
     font-size: 1rem;
     cursor: pointer;
-
+    position: relative;
+    bottom: 3px;
+    font-size: 1.2rem;
   }
   .myIcon{
     display: flex;

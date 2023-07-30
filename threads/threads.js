@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 import { getFirestore,addDoc, collection,query, orderBy,where, getDocs,getDoc,setDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 import { getStorage } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
 
@@ -91,7 +91,19 @@ user.addEventListener("click", () => {
   postContainer.style.display = 'none';
 createPostContainer.style.display = "none"
   userDiv.style.display = 'block';
-  userDiv.innerHTML = `Current User: ${currentUser.email}`;
+  userDiv.innerHTML = `${currentUser.email}`;
+  let button = document.createElement("button")
+  button.style.float = "right"
+  button.textContent = "Logout"
+  userDiv.appendChild(button)
+  button.addEventListener("click", ()=>{
+    signOut(auth).then(() => {
+      alert("Sign-out successful.")
+      window.location.href = "../login/index.html"
+    }).catch((error) => {
+      // An error happened.
+    });
+  })
 });
 
  
@@ -135,7 +147,7 @@ createPostContainer.style.display = "none"
     let userProfile = document.createElement("div")
     userProfile.style.height = "2.4rem"
     userProfile.style.width = "2.4rem"
-    userProfile.style.border = "2px solid Gray"
+    userProfile.style.border = "2px solid gray"
 
     userProfile.style.borderRadius = "50%"
     userProfile.style.backgroundImage = `url(${profilePictureURL})`;
@@ -147,6 +159,7 @@ createPostContainer.style.display = "none"
   let postingSmallDiv = document.createElement("div")
   postingSmallDiv.style.marginTop = "0.7rem"
   postingSmallDiv.style.backgroundColor = "lightGray"
+
 
   postingSmallDiv.classList.add("postingSmallDiv")
     let labelAndInput = document.createElement("div")
@@ -200,9 +213,13 @@ createPostContainer.style.display = "none"
     postButton.addEventListener('click', async () => {
     
       try {
-        const postInput = input.value;
-        createPostContainer.style.display = "none"
-        postContainer.style.display = "block"
+        const myTimeout = setTimeout(() => {
+          createPostContainer.style.display = "none";
+          postContainer.style.display = "block";
+        }, 1100);
+        // myTimeout()
+        // clearTimeout(myTimeout);
+       const postInput = input.value;
         const postCollection = collection(db, 'posts');
         await addDoc(postCollection, {
           post: postInput,
@@ -287,11 +304,12 @@ hello.classList.add("hello")
 let profileHr = document.createElement("hr")
 profileHr.classList.add("profileHr")
 let smallDiv = document.createElement("div")
-smallDiv.style.height = "1.6rem"
+smallDiv.style.height = "1.9rem"
 smallDiv.style.width = "1.4rem"
 smallDiv.style.borderRadius = "50%"
 smallDiv.style.backgroundColor = "lightGray"
 smallDiv.style.marginTop = "0.5rem"
+smallDiv.style.border = "2px solid gray"
 
 
 
@@ -302,6 +320,13 @@ const myProfilePicture = currentUser.photoURL;
   hello.style.border = "2px solid gray"
   hello.style.borderRadius = "50%"
   hello.style.backgroundImage = `url(${data.profilePic})`;
+  if(data.profilePic === null){
+    
+    // hello.style.backgroundImage = `url(${"./images/profile2.jpg"})`
+
+hello.style.backgroundColor = "lightGray";
+
+  }
 hello.style.backgroundSize = "cover";
   hello.style.borderRadius = "50%"
 div.appendChild(main)
@@ -485,34 +510,68 @@ if(data.likes || data.replies > 0){
 }
     const postUserId = data.userId;
     timeAndDeletePostDiv.appendChild(span);
-      let deleteButton = document.createElement('i');
-deleteButton.classList.add('delete');
-deleteButton.innerHTML = '<i class="fas fa-trash"></i>'; // Replace button text with Font Awesome icon
-timeAndDeletePostDiv.appendChild(deleteButton);
-
-deleteButton.addEventListener('click', async () => {
-  if (currentUser && currentUser.uid === postUserId) {
-    const confirmDelete = await Swal.fire({
-      icon: 'question',
-      title: 'Delete Post',
-      text: 'Are you sure you want to delete this post?',
-      showCancelButton: true,
-      confirmButtonText: 'Delete',
-      cancelButtonText: 'Cancel',
-    });
-
-    if (confirmDelete.isConfirmed) {
-      deletePost(docId);
+    let deleteButton = document.createElement('i');
+    deleteButton.textContent = "...";
+    deleteButton.classList.add('delete');
+    
+    const deleteIcon = document.createElement('i');
+    deleteIcon.classList.add('fas', 'fa-trash');
+    deleteIcon.style.display = 'none'; // Hide the delete icon initially
+    
+    timeAndDeletePostDiv.appendChild(deleteButton);
+    timeAndDeletePostDiv.appendChild(deleteIcon);
+    
+    let isDeleteIconVisible = false; // To keep track of whether the delete icon is visible or not
+    
+    // Toggle the visibility of deleteButton and deleteIcon
+    function toggleDeleteButtonAndIcon() {
+      if (!isDeleteIconVisible) {
+        // deleteButton.textContent = '';
+        deleteIcon.style.display = 'block';
+        isDeleteIconVisible = true;
+      } else {
+        deleteButton.textContent = "...";
+        deleteIcon.style.display = 'none';
+        isDeleteIconVisible = false;
+      }
     }
-  } else {
-    // Show SweetAlert dialog with the error message
-    Swal.fire({
-      icon: 'error',
-      title: 'Access Denied',
-      text: 'You have no access to delete this post',
+    
+    deleteButton.addEventListener('click', () => {
+      toggleDeleteButtonAndIcon();
     });
-  }
-});
+    
+    deleteIcon.addEventListener('click', async () => {
+      if (currentUser && currentUser.uid === postUserId) {
+        const confirmDelete = await Swal.fire({
+          icon: 'question',
+          title: 'Delete Post',
+          text: 'Are you sure you want to delete this post?',
+          showCancelButton: true,
+          confirmButtonText: 'Delete',
+          cancelButtonText: 'Cancel',
+        });
+    
+        if (confirmDelete.isConfirmed) {
+          deletePost(docId);
+          // Hide the deleteIcon after the post is deleted
+          deleteIcon.style.display = 'none';
+          isDeleteIconVisible = false;
+        }
+      } else {
+        // Show SweetAlert dialog with the error message
+        Swal.fire({
+          icon: 'error',
+          title: 'Access Denied',
+          text: 'You have no access to delete this post',
+        });
+      }
+    });
+    
+    
+    
+    
+    
+    
     // async function updateRepliesCount(postRef, delta) {
     //   const postDoc = await getDoc(postRef);
     //   if (!postDoc.exists()) {
