@@ -39,16 +39,60 @@ body{
 }
 #signUp{
   position: relative;
-  width: 300px;
   height: 40px;
   transition: 1s;
-  margin-top: 3rem;
+  margin-top: 1rem;
 
 
 }
+#loginWithGoogle{
+  color: #00ccff;
+  border-radius: 50px;
+  /* transition: transform 1.7s; */
+  
+   display: flex;
+   justify-content: center;
+margin-top: 0.5rem;
+border: 1px solid #00ccff;
+height: 2.3rem;
+}
+/* #loginWithGoogle:hover {
+
+  transform: scale(1.09); 
+} */
+#googleLogin{
+  color: #00ccff;
+  background-color: #0c1022;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ border: none;
+ cursor: pointer;
+font-size: 22px;
+
+}
+img{
+  height: 23px;
+  width: 25px;
+  position: absolute;
+  left: 47px;
+}
+.or{
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 0.9rem;
+}
+.orPara{
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+}
+.orHr{
+  width: 100%;
+}
 #signUpButton:hover {
 
-  transform: scale(1.15); 
+  transform: scale(1.09); 
 }
 input[type = 'checkbox']{
   height: 1.5rem;
@@ -61,6 +105,7 @@ font-size: 1.2rem;
 }
 .showPassword{
   display: flex;
+  align-items: center;
   justify-content: flex-start;
   margin-top: 1rem;
 }
@@ -90,47 +135,21 @@ font-size: 1.2rem;
   align-items: center;
 }
 .parent{
-    position: relative;
-    width: 400px;
-    height: 470px;
-    max-width: 400px;
-    max-height: 470px;
-    background: #040717;
-    border-radius: 50px 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    margin-top: 70px;
+  margin-bottom: 5rem;
+  margin-top: 5rem;
+  position: relative;
+  width: 363px;
+  height: 480px;
+  max-width: 400px;
+  max-height: 499px;
+  background: #040717;
+  border-radius: 50px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
-.parent::before{
-    
-    position: absolute;
-    width: 170%;
-    height: 170%;
-    content: '';
-    background-image: conic-gradient(transparent, transparent, transparent, #ee00ff);
-    animation: rotate_border 6s linear infinite;
 
-}
-.parent::after{
-    
-    position: absolute;
-    width: 170%;
-    height: 170%;
-    content: '';
-    background-image: conic-gradient(transparent, transparent, transparent, #00ccff);
-    animation: rotate_border 6s linear infinite;
-    animation-delay: -3s;
-}
-@keyframes rotate_border{
-    0%{
-        transform: rotate(0deg);
-    }
-    100%{
-        transform: rotate(360deg);
-    }
-}
 .signUpCard{
   position: absolute;
   content: '';

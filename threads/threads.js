@@ -90,7 +90,9 @@ user.addEventListener("click", () => {
 
   postContainer.style.display = 'none';
 createPostContainer.style.display = "none"
-  userDiv.style.display = 'block';
+  // userDiv.style.display = 'block';
+  userDiv.style.display = 'flex';
+
   userDiv.innerHTML = `${currentUser.email}`;
   let button = document.createElement("button")
   button.style.float = "right"
@@ -108,9 +110,12 @@ createPostContainer.style.display = "none"
 
  
   post.addEventListener('click', async () => {
+   
     myHome.style.color = "gray"
     myUser.style.color = "gray"
     myPost.style.color = "black"
+    let icons = document.querySelector(".icons")
+    icons.style.display = "none"
    createPostContainer.style.display = "block"
    createPostContainer.innerHTML = ""
    userDiv.style.display = "none"
@@ -166,8 +171,10 @@ createPostContainer.style.display = "none"
     labelAndInput.classList.add("labelAndInput")
     let creatingPostLabel = document.createElement("label")
     creatingPostLabel.textContent = currentUser.email
+    creatingPostLabel.style.fontWeight = "bold"
     creatingPostLabel.style.display = "block"
     let input = document.createElement("textarea");
+    input.style.width = "100%"
     input.id = "postInput";
     input.placeholder = "Start a thread...";
     let paraAndPostButton = document.createElement("div")
@@ -203,6 +210,10 @@ createPostContainer.style.display = "none"
     cancel.addEventListener("click", ()=>{
       createPostContainer.style.display = "none"
       postContainer.style.display = "block"
+      icons.style.display = "block"
+      icons.style.display = "flex"
+
+
       threadsIcon.style.display = "block"
       myHome.style.color = "black"
       myUser.style.color = "gray"
@@ -211,11 +222,16 @@ createPostContainer.style.display = "none"
     })
   
     postButton.addEventListener('click', async () => {
-    
+     if(input.value === ""){
+      alert("Please Fill the Input Box")
+      return
+    }
       try {
         const myTimeout = setTimeout(() => {
           createPostContainer.style.display = "none";
           postContainer.style.display = "block";
+          // postContainer.style.display = "flex";
+
         }, 1100);
         // myTimeout()
         // clearTimeout(myTimeout);
@@ -230,6 +246,9 @@ createPostContainer.style.display = "none"
           likes: 0,
           replies: 0,
         });
+        icons.style.display = "block"
+        icons.style.display = "flex"
+
     threadsIcon.style.display = "block"
       myHome.style.color = "black"
       myUser.style.color = "gray"
@@ -249,11 +268,23 @@ createPostContainer.style.display = "none"
    
   
   
-const deletePost = async (postId) => {
-  await deleteDoc(doc(db, 'posts', postId));
-  getDataFromFirestore();
-  alert('Post deleted successfully!');
-}
+  const deletePost = async (postId) => {
+    try {
+      await deleteDoc(doc(db, 'posts', postId));
+      getDataFromFirestore();
+      // Use SweetAlert to show the success message
+      Swal.fire({
+        icon: 'success',
+        title: 'Post deleted successfully!',
+        showConfirmButton: false,
+        timer: 1500 // Close the alert automatically after 1.5 seconds
+      });
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      // Use SweetAlert to show an error message if there's a problem with deletion
+    
+    }
+  }
 
 // post.addEventListener('click', () => {
 

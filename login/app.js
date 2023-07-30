@@ -25,9 +25,11 @@ const auth = getAuth(app);
  let loginEmail = document.getElementById('loginEmail')
     let loginPassword = document.getElementById('loginPassword')
 let loginButton = document.getElementById('loginButton')
-loginWithGoogle.addEventListener("click", ()=>{
+loginWithGoogle.addEventListener("click", ()=>{  
+
   signInWithPopup(auth, provider)
   .then((result) => {
+
     // This gives you a Google Access Token. You can use it to access the Google API.
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const token = credential.accessToken;
@@ -50,11 +52,15 @@ loginWithGoogle.addEventListener("click", ()=>{
 })
 
 loginButton.addEventListener("click", function(){
-   
+  if(loginEmail.value === "" || loginPassword.value === ""){
+    alert("Please Fill Both The Inputs")
+    return
+        }
 
     // const auth = getAuth();
     signInWithEmailAndPassword (auth, loginEmail.value, loginPassword.value)
    .then((userCredential) => {
+
      // Signed in 
      const user = userCredential.user;
      alert("Login In Successfull")

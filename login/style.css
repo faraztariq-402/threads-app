@@ -18,9 +18,20 @@ body{
   display: flex;
   justify-content: center;
 }
+.or{
+  display: flex;
+  align-items: center;
+}
+.orPara{
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+}
+.orHr{
+  width: 100%;
+}
 #loginButton:hover {
 
-  transform: scale(1.15); 
+  transform: scale(1.09); 
 }
 .input_group{
   margin-top: 40px;
@@ -43,10 +54,10 @@ body{
 }
 #login{
   position: relative;
-  width: 300px;
+  /* width: 300px; */
   height: 40px;
   transition: 1s;
-  margin-top: 3rem;
+  margin-top: 1rem;
 
 
 }
@@ -63,6 +74,7 @@ font-size: 1.2rem;
   display: flex;
   justify-content: flex-start;
   margin-top: 1rem;
+  align-items: center;
 }
 .mySpan a{
   text-decoration: none;
@@ -91,7 +103,7 @@ font-size: 1.2rem;
 #loginWithGoogle{
   color: #00ccff;
   border-radius: 50px;
-  transition: transform 1.7s;
+  /* transition: transform 1.7s; */
   
    display: flex;
    justify-content: center;
@@ -99,10 +111,7 @@ margin-top: 0.5rem;
 border: 1px solid #00ccff;
 height: 2.3rem;
 }
-#loginWithGoogle:hover {
 
-  transform: scale(1.15); 
-}
 #googleLogin{
   color: #00ccff;
   background-color: #0c1022;
@@ -115,9 +124,11 @@ font-size: 22px;
 
 }
 .parent{
+      margin-bottom: 5rem;
+    margin-top: 5rem;
     position: relative;
-    width: 400px;
-    height: 513px;
+    width: 363px;
+    height: 480px;
     max-width: 400px;
     max-height: 499px;
     background: #040717;
@@ -126,9 +137,19 @@ font-size: 22px;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    margin-top: 70px;
+    /* margin-top: 70px; */
 }
-.parent::before{
+img{
+  height: 23px;
+  width: 25px;
+  position: absolute;
+  left: 47px;
+}
+.or{
+  margin-top: 1rem;
+    margin-bottom: 0.9rem;
+}
+/* .parent::before{
     
     position: absolute;
     width: 170%;
@@ -155,7 +176,7 @@ font-size: 22px;
     100%{
         transform: rotate(360deg);
     }
-}
+} */
 .loginCard{
   position: absolute;
   content: '';

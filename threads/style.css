@@ -291,6 +291,7 @@ height: 0.5px;
 #userDiv{
   display: flex ;
   justify-content: space-between;
+  align-items: center;
 }
  
   #postInput{
@@ -364,6 +365,17 @@ height: 0.5px;
   margin-top: 1.4rem;
   
   }
+  #userDiv{
+    height: 3rem;
+    align-items: center;
+   
+  }
+  #userDiv>button{
+    padding: 0.2rem 0.6rem 0.2rem  0.6rem  ;
+ background-color: #000000;
+    color: white;
+    border-radius: 0.2rem;
+  }
   .postProfileAndLabel{
     display: flex;
     align-items: center;
@@ -414,5 +426,8 @@ height: 0.5px;
   @media screen and (max-width:380px) {
     .secondMain{
       width: 80%;
+    }
+    #userDiv{
+      font-size: 1.1rem;
     }
   }

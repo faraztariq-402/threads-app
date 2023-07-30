@@ -7,31 +7,34 @@
     <title>Threads</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
-    <link rel="shortcut icon" href="./threads/images/threads.webp" type="image/x-icon">
+    <link rel="shortcut icon" href="./threads/images/threads_2-removebg-preview.png" type="image/x-icon">
     <link rel="stylesheet" href="./signUp/style.css">
 </head>
 
 <body>
         <div class="parent">
             <div class="signUpCard" id="signUpCard">
-                <h1 class="heading">User SignUp</h1>
+                <h1 class="heading">SignUp</h1>
                 
                 <div class="input_group">
                     <i class="fa fa-user"></i>
-                    <input type="text" placeholder="Email Address" class="input_text" id="myEmail"/>
+                    <input type="text" placeholder="Email Address" class="input_text" id="myEmail" required/>
                 </div>
                 <div class="input_group">
                     <i class="fa fa-unlock-alt"></i>
-                    <input type="password" placeholder="Password" class="input_text" id="myPassword"/>
+                    <input type="password" placeholder="Password" class="input_text" id="myPassword" required/>
                 </div>
-                <div class="showPassword"><input type="checkbox" id="showSignUpPasswordCheckbox"><label style="font-size: 1.3rem; margin-left: 0.8rem;">Show Password</label> </div>
-              
-                   <div id="signUp"><button id="signUpButton">Create You Account</button></div> 
-         
-                 <div class="mySpan"> <!--footer -->
-                    <span>Already have an account?</span>
+                <div class="showPassword"><input type="checkbox" id="showSignUpPasswordCheckbox"><label style=" margin-left: 0.8rem;">Show Password</label> </div>
+             
+                 
+                   <div id="signUp"><button id="signUpButton">Create You Account</button></div>   
+                     <div class="mySpan"> <!--footer --> 
+                         <span>Already have account?</span>
                     <a href="./login/index.html">Login</a>
                 </div>
+                   <div class="or"><hr class="orHr">  <p class="orPara">OR</p><hr class="orHr"></div>
+                   <div id="loginWithGoogle"><button id="googleLogin"> <img src="../threads/images/icons8-google.svg">Login With Google</button></div> 
+               
             </div>
         </div>
 
