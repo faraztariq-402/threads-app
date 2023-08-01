@@ -30,7 +30,7 @@ loginWithGoogle.addEventListener("click", ()=>{
     const user = result.user;
     alert("google login successful")
     console.log("google user created",user)
-    window.location.href = '../threads/index.html';
+    location.href = '../threads/index.html';
   }).catch((error) => {
     // Handle Errors here.
     const errorCode = error.code;
