@@ -336,7 +336,7 @@ let profileHr = document.createElement("hr")
 profileHr.classList.add("profileHr")
 let smallDiv = document.createElement("div")
 smallDiv.style.height = "1.9rem"
-smallDiv.style.width = "1.4rem"
+smallDiv.style.width = "1.2rem"
 smallDiv.style.borderRadius = "50%"
 smallDiv.style.backgroundColor = "lightGray"
 smallDiv.style.marginTop = "0.5rem"
@@ -535,10 +535,7 @@ if(data.likes === 1){
 }
 likesAndReplies.appendChild(totalReplies)
 likesAndReplies.appendChild(totalLikes)
-likesAndReplies.style.display = "none"
-if(data.likes || data.replies > 0){
-  likesAndReplies.style.display = "block"
-}
+
     const postUserId = data.userId;
     timeAndDeletePostDiv.appendChild(span);
     let deleteButton = document.createElement('i');
